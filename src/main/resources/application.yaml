@@ -1,0 +1,11 @@
+spring:
+  flyway:
+    check-location: false
+  datasource:
+    url: jdbc:postgresql://db:5432/kyc
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
