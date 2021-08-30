@@ -19,6 +19,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=kyc
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
@@ -33,3 +35,6 @@ services:
 networks:
   rabbitmq_go_net:
     driver: bridge
+volumes:
+  postgres-data:
+    driver: local

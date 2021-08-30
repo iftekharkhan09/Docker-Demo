@@ -3,7 +3,6 @@ package com.example.web;
 import com.example.dto.Name;
 import com.example.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +15,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public Name getSting(@RequestParam("id") Integer id){
+    public Name getSting(@RequestParam("id") Integer id) {
         System.out.println("id" + id);
         return userService.getName(id);
     }

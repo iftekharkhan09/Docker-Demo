@@ -1,8 +1,11 @@
 package com.example.service;
 
 import com.example.dto.Name;
+import com.example.exception.UserNotFoundException;
 import com.example.repository.NameRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -13,7 +16,10 @@ public class UserService {
     }
 
     public Name getName(Integer id) {
-        com.example.entity.Name name = nameRepository.findById(id).get();
-        return new Name(name.getName());
+        Optional<com.example.entity.Name> name = nameRepository.findById(id);
+        if(name.isEmpty()) {
+            throw new UserNotFoundException("User was not found !!");
+        }
+        return new Name(name.get().getName());
     }
 }
