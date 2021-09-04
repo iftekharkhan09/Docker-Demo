@@ -16,7 +16,6 @@ public class UserController {
 
     @GetMapping("/user")
     public Name getSting(@RequestParam("id") Integer id) {
-        System.out.println("id" + id);
         return userService.getName(id);
     }
 }

@@ -1,11 +1,22 @@
 spring:
   flyway:
-    check-location: false
+    default-schema: app
+    schemas: app
   datasource:
-    url: jdbc:postgresql://db:5432/kyc
+    url: jdbc:postgresql://localhost:5433/local
     username: postgres
     password: postgres
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: app
+rabbitmq:
+  host: rabbitmq
+  addresses: localhost:5672
+  adminAddresses: http://localhost:15672
+  username: guest
+  password: guest
+  virtual-host: All

@@ -1,0 +1,96 @@
+#!/bin/sh
+echo "argument passed - $1"
+
+start_services()
+{
+  echo "clean, building the app..."
+  mvn clean install -DskipTests
+  echo "removing previous delphi image"
+  docker image rm delphi
+  echo "deploying docker images..."
+  docker-compose up
+}
+
+stop_services()
+{
+  echo "stopping docker containers..."
+  docker-compose down
+  sed -i '' 's/localhost:5433/postgresdb:5432/' src/main/resources/application.yaml
+}
+
+debug_service() {
+  sed -i '' 's/postgresdb:5432/localhost:5433/' src/main/resources/application.yaml
+}
+
+setup_rabbbitmq_messages()
+{
+  setup_rabbbitmq_admin
+  create_exchanges
+  create_queues
+  create_bindings
+}
+
+setup_rabbbitmq_admin()
+{
+  echo "setting up the rabbitmq admin"
+  wget https://raw.githubusercontent.com/rabbitmq/rabbitmq-management/v3.7.8/bin/rabbitmqadmin
+  chmod +x rabbitmqadmin
+}
+
+create_exchanges()
+{
+  create_exchange
+}
+
+create_queues()
+{
+  create_queue
+}
+
+create_bindings()
+{
+  create_binding
+}
+
+# shellcheck disable=SC2120
+create_exchange()
+{
+   echo "creating exchange $1"
+  ./rabbitmqadmin declare exchange --vhost=All name="$1" type="$2"
+}
+
+# shellcheck disable=SC2120
+create_queue()
+{
+   echo "creating queue $1"
+  ./rabbitmqadmin declare exchange --vhost=All name="$1" type="$2"
+}
+
+# shellcheck disable=SC2120
+create_binding()
+{
+   echo "binding queue $1 with exchange $2"
+  ./rabbitmqadmin declare exchange --vhost=All name="$1" type="$2"
+}
+
+if [ "$1" == 'start' ]
+  then
+    start_services
+fi
+if [ "$1" == 'stop' ]
+  then
+    stop_services
+fi
+if [ "$1" == 'restart' ]
+    then
+      stop_services
+      start_services
+fi
+if [ "$1" == 'rabbitmq.setup' ]
+    then
+      setup_rabbbitmq_messages
+fi
+if [ "$1" == 'debug' ]
+    then
+      debug_service
+fi
