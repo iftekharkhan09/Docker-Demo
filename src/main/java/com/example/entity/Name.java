@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "name")
-public class Name {
+public class Name { //B
     @GeneratedValue
     @Id
     private Integer id;
