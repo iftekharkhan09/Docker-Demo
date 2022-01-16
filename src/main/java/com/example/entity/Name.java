@@ -9,6 +9,7 @@ import javax.persistence.Table;
 @Table(name = "name")
 public class Name {
     @GeneratedValue
+
     @Id
     private Integer id;
     private String name;
