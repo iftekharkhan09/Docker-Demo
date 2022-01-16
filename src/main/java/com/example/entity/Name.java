@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "name") // test
-public class Name { // A
+@Table(name = "name")
+public class Name { //B
     @GeneratedValue
 
     @Id
